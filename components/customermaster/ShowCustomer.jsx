@@ -7,7 +7,10 @@ import {
     TouchableOpacity,
 } from "react-native";
 import React, {Fragment, useEffect, useState} from "react";
-import {adminCustomerGetAxios,adminCustomerDeleteAxios} from "../../axios/admin";
+import {
+    adminCustomerGetAxios,
+    adminCustomerDeleteAxios,
+} from "../../axios/admin";
 import AddButton from "../AddButton.component";
 import {useNavigation} from "@react-navigation/native";
 
@@ -20,127 +23,167 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
     useEffect(async () => {
         await adminCustomerGetAxios()
             .then((res) => {
-                
                 // setDelet(false);
-                var arr = []
+                var arr = [];
 
                 res.map((item) => {
-                    
                     arr.push(item);
-                })
+                });
                 setCustomer(arr);
             })
-            .catch((err) => {
-              
-            });
+            .catch((err) => {});
     }, [delet]);
-    
-
 
     const handleDelete = async (id) => {
-        await adminCustomerDeleteAxios(id).then((res) => {
-          
-            // setDelet(!delet);
-            console.log('====================================');
-            console.log('====================================');
-            navigation.push('Customermaster');
-            
-        }).catch((err) => {
-           
-        })
+        await adminCustomerDeleteAxios(id)
+            .then((res) => {
+                // setDelet(!delet);
+                console.log("====================================");
+                console.log("====================================");
+                navigation.push("Customermaster");
+            })
+            .catch((err) => {});
         // console.log(delet,'lok');
         // setDelet(!delet);
     };
     const handleClick = (id) => {
-        
         // setCustomerid(id);
         navigation.push("Projectmaster", {customerid: id});
-        
     };
     return (
         <>
             <ScrollView>
                 <View style={{flex: 1, padding: 10}}>
-                   
                     {customer &&
                         customer.map((item, index) => {
-                            
                             return (
-                                <View
-                                    key={index}
-                                    style={styles.maincard}
-                                >       
-                                        <View style={styles.miniCard}>
-                                            <Text style={styles.miniCardText}>
-                                                {item["customer"].unique_id}
-                                            </Text>
-                                            
-                                            <Text style={styles.miniCardText}>
-                                                Customer ID
-                                            </Text>
-                                        </View>
-                                        <View style={styles.miniCard}>
-                                            <Text style={styles.miniCardText}>
-                                                {item["customer"].customer_name}
-                                            </Text>
-                                            
-                                            <Text style={styles.miniCardText}>
-                                                Customer Name
-                                            </Text>
-                                        </View>
-                                        <View style={styles.miniCard}>
-                                            <Text style={styles.miniCardText}>
-                                                {item['customer_address'].building_name}
-                                            </Text>
-                                            <Text style={styles.miniCardText}>
-                                                Door No/Building name
-                                            </Text>
-                                        </View>
-                                    
+                                <View key={index} style={styles.maincard}>
+                                    <View style={styles.miniCard}>
+                                        <Text style={styles.miniCardText}>
+                                            {item["customer"].unique_id}
+                                        </Text>
+                                        <Text
+                                            style={[
+                                                styles.miniCardText,
+                                                styles.textquestion,
+                                            ]}
+                                        >
+                                            Customer ID
+                                        </Text>
+                                    </View>
+                                    <View style={styles.miniCard}>
+                                        <Text style={styles.miniCardText}>
+                                            {item["customer"].customer_name}
+                                        </Text>
+
+                                        <Text
+                                            style={[
+                                                styles.miniCardText,
+                                                styles.textquestion,
+                                            ]}
+                                        >
+                                            Customer Name
+                                        </Text>
+                                    </View>
+                                    <View style={styles.miniCard}>
+                                        <Text style={styles.miniCardText}>
+                                            {
+                                                item["customer_address"]
+                                                    .building_name
+                                            }
+                                        </Text>
+                                        <Text
+                                            style={[
+                                                styles.miniCardText,
+                                                styles.textquestion,
+                                            ]}
+                                        >
+                                            Door No/Building name
+                                        </Text>
+                                    </View>
+
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["customer_address"].street_1}
+                                                {
+                                                    item["customer_address"]
+                                                        .street_1
+                                                }
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Street1
                                             </Text>
                                         </View>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["customer_address"].street_2}
+                                                {
+                                                    item["customer_address"]
+                                                        .street_2
+                                                }
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Street2
                                             </Text>
                                         </View>
-                                        
                                     </View>
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["customer_address"].locality}
+                                                {
+                                                    item["customer_address"]
+                                                        .locality
+                                                }
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Locality
                                             </Text>
                                         </View>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["customer_address"].district}
+                                                {
+                                                    item["customer_address"]
+                                                        .district
+                                                }
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 District
                                             </Text>
                                         </View>
-                                        
                                     </View>
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["customer_address"].pincode}
+                                                {
+                                                    item["customer_address"]
+                                                        .pincode
+                                                }
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Pin Code
                                             </Text>
                                         </View>
@@ -148,18 +191,30 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
                                             <Text style={styles.miniCardText}>
                                                 {item["customer_address"].state}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 State
                                             </Text>
                                         </View>
-                                        
                                     </View>
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["customer_address"].country}
+                                                {
+                                                    item["customer_address"]
+                                                        .country
+                                                }
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Country
                                             </Text>
                                         </View>
@@ -167,18 +222,27 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
                                             <Text style={styles.miniCardText}>
                                                 {item["customer"].email}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Email
                                             </Text>
                                         </View>
-                                        
                                     </View>
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
                                                 {item["customer"].phone}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Phone No
                                             </Text>
                                         </View>
@@ -186,82 +250,135 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
                                             <Text style={styles.miniCardText}>
                                                 {item["customer"].gst_no}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 GST No
                                             </Text>
                                         </View>
-                                        
                                     </View>
-
 
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
                                                 {item["customer"].fax_no}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Fax No
                                             </Text>
                                         </View>
-                                        <Text style={styles.title}>Shipping Address</Text>
+                                        <Text style={styles.title}>
+                                            Shipping Address
+                                        </Text>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["shipping_address"].building_name}
+                                                {
+                                                    item["shipping_address"]
+                                                        .building_name
+                                                }
                                             </Text>
-                                            <Text style={styles.miniCardText}>
-                                            Door No /Building name
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
+                                                Door No /Building name
                                             </Text>
                                         </View>
-                                        
                                     </View>
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["shipping_address"].street_1}
+                                                {
+                                                    item["shipping_address"]
+                                                        .street_1
+                                                }
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Street 1
                                             </Text>
                                         </View>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["shipping_address"].street_2}
+                                                {
+                                                    item["shipping_address"]
+                                                        .street_2
+                                                }
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Street 2
                                             </Text>
                                         </View>
-                                        
                                     </View>
 
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["shipping_address"].locality}
+                                                {
+                                                    item["shipping_address"]
+                                                        .locality
+                                                }
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Locality
                                             </Text>
                                         </View>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["shipping_address"].district}
+                                                {
+                                                    item["shipping_address"]
+                                                        .district
+                                                }
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 District
                                             </Text>
                                         </View>
-                                        
                                     </View>
-
-
 
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["shipping_address"].pincode}
+                                                {
+                                                    item["shipping_address"]
+                                                        .pincode
+                                                }
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Pin Code
                                             </Text>
                                         </View>
@@ -269,21 +386,31 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
                                             <Text style={styles.miniCardText}>
                                                 {item["shipping_address"].state}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 State
                                             </Text>
                                         </View>
-                                        
                                     </View>
-
-
 
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["shipping_address"].country}
+                                                {
+                                                    item["shipping_address"]
+                                                        .country
+                                                }
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Pin Code
                                             </Text>
                                         </View>
@@ -292,18 +419,27 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
                                             <Text style={styles.miniCardText}>
                                                 {item["ac"].designation}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Designation
                                             </Text>
                                         </View>
-                                        
                                     </View>
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
                                                 {item["ac"].department}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Department
                                             </Text>
                                         </View>
@@ -311,154 +447,230 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
                                             <Text style={styles.miniCardText}>
                                                 {item["ac"].email}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Email
                                             </Text>
                                         </View>
-                                        
                                     </View>
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
                                                 {item["ac"].mobile_number}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Mobile Number
                                             </Text>
                                         </View>
-                                        <Text style={styles.title}>Manager</Text>
+                                        <Text style={styles.title}>
+                                            Manager
+                                        </Text>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["manager"] && item["manager"].designation}
+                                                {item["manager"] &&
+                                                    item["manager"].designation}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Designation
                                             </Text>
                                         </View>
-                                        
                                     </View>
-
 
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                { item["manager"] && item["manager"].department}
+                                                {item["manager"] &&
+                                                    item["manager"].department}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Department
                                             </Text>
                                         </View>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["manager"] && item["manager"].email}
+                                                {item["manager"] &&
+                                                    item["manager"].email}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Email
                                             </Text>
                                         </View>
-                                        
                                     </View>
-
 
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["manager"] && item["manager"].mobile_number}
+                                                {item["manager"] &&
+                                                    item["manager"]
+                                                        .mobile_number}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Mobile Number
                                             </Text>
                                         </View>
-                                    <Text style={styles.title}>Purchase Details</Text>
+                                        <Text style={styles.title}>
+                                            Purchase Details
+                                        </Text>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["purchase"] && item["purchase"].designation}
+                                                {item["purchase"] &&
+                                                    item["purchase"]
+                                                        .designation}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Designation
                                             </Text>
                                         </View>
-                                        
                                     </View>
-
 
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["purchase"] && item["purchase"].department}
+                                                {item["purchase"] &&
+                                                    item["purchase"].department}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Department
                                             </Text>
                                         </View>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["purchase"] && item["purchase"].email}
+                                                {item["purchase"] &&
+                                                    item["purchase"].email}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Email
                                             </Text>
                                         </View>
-                                        
                                     </View>
-
 
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["purchase"] && item["purchase"].mobile_number}
+                                                {item["purchase"] &&
+                                                    item["purchase"]
+                                                        .mobile_number}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Mobile Number
                                             </Text>
                                         </View>
-                                        <Text style={styles.title}>Store Details</Text>
+                                        <Text style={styles.title}>
+                                            Store Details
+                                        </Text>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["stores"] && item["stores"].designation}
+                                                {item["stores"] &&
+                                                    item["stores"].designation}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Designation
                                             </Text>
                                         </View>
-                                        
                                     </View>
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["stores"] && item["stores"].department}
+                                                {item["stores"] &&
+                                                    item["stores"].department}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Department
                                             </Text>
                                         </View>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["stores"] && item["stores"].email}
+                                                {item["stores"] &&
+                                                    item["stores"].email}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Email
                                             </Text>
                                         </View>
-                                        
                                     </View>
-
 
                                     <View style={styles.cardRow}>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
-                                                {item["stores"] && item["stores"].mobile_number}
+                                                {item["stores"] &&
+                                                    item["stores"]
+                                                        .mobile_number}
                                             </Text>
-                                            <Text style={styles.miniCardText}>
+                                            <Text
+                                                style={[
+                                                    styles.miniCardText,
+                                                    styles.textquestion,
+                                                ]}
+                                            >
                                                 Mobile Number
                                             </Text>
                                         </View>
-                                        
-                                        
                                     </View>
 
-                                    
-                                    
                                     <View
                                         style={{
                                             flexDirection: "row",
@@ -467,7 +679,11 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
                                         }}
                                     >
                                         <TouchableOpacity
-                                            onPress={()=>handleDelete(item["customer"].customer_id)}
+                                            onPress={() =>
+                                                handleDelete(
+                                                    item["customer"].customer_id
+                                                )
+                                            }
                                             style={{
                                                 width:
                                                     Dimensions.get("window")
@@ -485,14 +701,28 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
                                                 justifyContent: "center",
                                             }}
                                         >
-                                            <Text style={[styles.text,{
-                                                color: "red",
-                                            }]}>
+                                            <Text
+                                                style={[
+                                                    styles.text,
+                                                    {
+                                                        color: "red",
+                                                    },
+                                                ]}
+                                            >
                                                 Delete
                                             </Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                            onPress={()=>navigation.push("CustomerUpdate", {customerid: item["customer"].customer_id})}
+                                            onPress={() =>
+                                                navigation.push(
+                                                    "CustomerUpdate",
+                                                    {
+                                                        customerid:
+                                                            item["customer"]
+                                                                .customer_id,
+                                                    }
+                                                )
+                                            }
                                             style={{
                                                 marginTop: 15,
                                                 width:
@@ -510,15 +740,22 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
                                                 justifyContent: "center",
                                             }}
                                         >
-                                            <Text style={[styles.text,{
-                                                color: "black",
-                                            }]}>
+                                            <Text
+                                                style={[
+                                                    styles.text,
+                                                    {
+                                                        color: "black",
+                                                    },
+                                                ]}
+                                            >
                                                 Update
                                             </Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             onPress={() =>
-                                                handleClick(item["customer"].customer_id)
+                                                handleClick(
+                                                    item["customer"].customer_id
+                                                )
                                             }
                                             style={{
                                                 marginTop: 15,
@@ -537,9 +774,14 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
                                                 justifyContent: "center",
                                             }}
                                         >
-                                            <Text style={[styles.text,{
-                                                color: "#00a680",
-                                            }]}>
+                                            <Text
+                                                style={[
+                                                    styles.text,
+                                                    {
+                                                        color: "#00a680",
+                                                    },
+                                                ]}
+                                            >
                                                 Project
                                             </Text>
                                         </TouchableOpacity>
@@ -584,18 +826,15 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
 
 const styles = StyleSheet.create({
     maincard: {
-        
-            width: "99%",
-            // justifyContent: "center",
-            // alignItems: "center",
-            backgroundColor: "#fff",
-            padding: 10,
-            borderRadius: 10,
-            borderColor: "black",
-            borderWidth: 1,
-            marginBottom: 20,
-            
-    
+        width: "99%",
+        // justifyContent: "center",
+        // alignItems: "center",
+        backgroundColor: "#fff",
+        padding: 10,
+        borderRadius: 10,
+        borderColor: "black",
+        borderWidth: 1,
+        marginBottom: 20,
     },
     title: {
         padding: 10,
@@ -612,8 +851,8 @@ const styles = StyleSheet.create({
         marginTop: 10,
         borderWidth: 1,
         borderColor: "#609BEB",
-        marginLeft: 'auto',
-        marginRight: 'auto',
+        marginLeft: "auto",
+        marginRight: "auto",
         padding: 10,
         paddingVertical: 5,
         // alignItems: "center",
@@ -626,7 +865,12 @@ const styles = StyleSheet.create({
     text: {
         // color: "#fff",
         fontSize: 16,
-                                                // fontWeight: "bold",
+        // fontWeight: "bold",
+    },
+    textquestion: {
+        // color: "#fff",
+        fontSize: 16,
+        fontWeight: "bold",
     },
     // formOpenButton: {
     //     position: "absolute",
