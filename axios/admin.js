@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const baseURL = "https://bumaas-admin-server.herokuapp.com";
+const baseURL = "http://192.168.1.8:8080";
 export const adminCustomerGetSingleAxios = async (customerid) => {
   console.log('====================================');
   console.log(customerid);
