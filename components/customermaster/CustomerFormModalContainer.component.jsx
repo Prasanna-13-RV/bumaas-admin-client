@@ -316,11 +316,13 @@ const CustomerFormModalContainer = ({ addFormVisible, setAddFormVisible }) => {
         manager_email: "",
         manager_phone_number: "",
       }}
-      validationSchema={schema}
-      validateOnMount={true}
+    //   validationSchema={schema}
+    //   validateOnMount={true}
       onSubmit={(values) => {
         // setIndex(index + 1);
-       
+       console.log('====================================');
+	   console.log(values);
+	   console.log('====================================');
         adminCustomerPostAxios(values).then((res) => {
           setAddFormVisible(false);
 		//   navigation.goBack();
@@ -386,7 +388,8 @@ const CustomerFormModalContainer = ({ addFormVisible, setAddFormVisible }) => {
               <TouchableOpacity
                 style={styles.btn(isValid)}
                 onPress={() => {
-                  isValid ? handleSubmit() : setColor(true);
+					handleSubmit()
+                //   isValid ? handleSubmit() : setColor(true);
                   
                 }}
               >

@@ -19,9 +19,11 @@ import {
     adminProjectGetSingleAxios,
     adminProjectPutAxios,
   } from "../../axios/admin";
-  import FormModal from "../../components/FormModal.component";
+  import { useNavigation } from "@react-navigation/native";
+
   
   const ProjectUpdate = ({route}) => {
+    const navigation = useNavigation();
       const customerid = route.params.customerid;
         const projectid = route.params.projectid;
     console.log("customerid", customerid);
@@ -168,10 +170,8 @@ import {
           validateOnMount={true}
           onSubmit={(values) => {
             console.log(values);
-            adminProjectPutAxios(values,customerid,projectid).then((res) => {
-              console.log(res);
-            });
-          
+            adminProjectPutAxios(values,customerid,projectid)
+            navigation.goBack();
           }}
         >
           {({ handleChange, handleBlur, handleSubmit, values, isValid }) => (

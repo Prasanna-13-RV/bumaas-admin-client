@@ -341,10 +341,10 @@ const CustomerUpdate = ({route}) => {
       onSubmit={(values) => {
         // setIndex(index + 1);
         console.log(values);
-        adminCustomerPutAxios(values,customerid).then((res) => {
-          console.log(res);
+        adminCustomerPutAxios(values,customerid)
 		//   navigation.goBack();
-        });
+		navigation.push('Customermaster');
+        
         // console.log(index);
       }}
     >

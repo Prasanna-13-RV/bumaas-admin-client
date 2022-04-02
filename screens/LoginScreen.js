@@ -3,12 +3,13 @@ import {
 	Text,
 	View,
 	TextInput,
-	TouchableOpacity
+	TouchableOpacity,
+	// StyleSheet,
 } from 'react-native';
 import React, { useState ,useEffect} from 'react';
 import { auth } from '../firebase/firebase';
 import { createUserWithEmailAndPassword } from '../firebase/firebase';
-
+import LoadingScreen from './loadingScreen';
 // const auth = getAuth();
 
 const LoginScreen = ({ navigation }) => {
@@ -20,9 +21,13 @@ const LoginScreen = ({ navigation }) => {
 	// 	});
 	// 	return unsubscribe;
 	// } , []);
+	const [loading, setLoading] = useState(true);
 	const [email, setEmail] = useState('');
 	const [error, setError] = useState(null);
 	const [password, setPassword] = useState('');
+	setTimeout(() => {
+		setLoading(false);
+	}, 3000);
 
 	const handleLogin = () => {
 		auth.signInWithEmailAndPassword(email.trim(), password)
@@ -42,7 +47,12 @@ const LoginScreen = ({ navigation }) => {
 	};
 
 	return (
+		<>
+		{
+			loading ? <LoadingScreen/> :
+		
 		<View style={styles.container}>
+			<Text style={styles.title}>Bumaas</Text>
 			<Text style={styles.title}>Login</Text>
 			<TextInput
 				placeholder='Enter your Email'
@@ -64,6 +74,7 @@ const LoginScreen = ({ navigation }) => {
 			</TouchableOpacity>
 
 		</View>
+		}</>
 	);
 };
 

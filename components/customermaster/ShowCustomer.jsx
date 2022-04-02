@@ -69,8 +69,16 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
                                 <View
                                     key={index}
                                     style={styles.maincard}
-                                >
-                                    
+                                >       
+                                        <View style={styles.miniCard}>
+                                            <Text style={styles.miniCardText}>
+                                                {item["customer"].unique_id}
+                                            </Text>
+                                            
+                                            <Text style={styles.miniCardText}>
+                                                Customer ID
+                                            </Text>
+                                        </View>
                                         <View style={styles.miniCard}>
                                             <Text style={styles.miniCardText}>
                                                 {item["customer"].customer_name}

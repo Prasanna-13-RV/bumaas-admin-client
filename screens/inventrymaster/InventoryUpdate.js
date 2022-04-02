@@ -9,6 +9,7 @@ import {
 import React, { useState, useEffect, Fragment } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useNavigation } from "@react-navigation/native";
 
 import {
   adminInventoryGetSingleAxios,
@@ -16,6 +17,7 @@ import {
 } from "../../axios/admin";
 
 const InventoryUpdate = ({ route }) => {
+  const navigation = useNavigation();
   const [inventory, setInventory] = useState([]);
   const inventoryid = route.params.inventoryid;
   useEffect(async () => {
@@ -85,7 +87,9 @@ const InventoryUpdate = ({ route }) => {
           onSubmit={(values) => {
             console.log(values);
             adminInventoryPutAxios(values, inventoryid);
+            navigation.push('Inventrymaster');
           }}
+          
           validationSchema={schema}
           validateOnMount={true}
         >
