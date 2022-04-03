@@ -78,12 +78,7 @@ const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
     ];
 
     const schema = yup.object().shape({
-        part_no: yup.string().required(),
-        description: yup.string().required(),
-        type: yup.string().required(),
-        product_group: yup.string().required(),
-        weight: yup.number().required(),
-        standard_box_quantity: yup.number().required(),
+        
         safety_stock: yup.number().required(),
         rol: yup.number().required(),
         standard_lead_time: yup.number().required(),
@@ -95,18 +90,21 @@ const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
         console.log(value);
         adminInventoryGetSingleAxiosName(value).then((res) => {
             console.log(res[0]);
-            setDetails(res[0]);
-            console.log(details.description,'ll')
+            res.map((i)=> {
+               setDetails({
+                   part_no: i.part_no,
+                   description: i.description,
+                   product_group: i.product_group,
+                   type: i.type,
+                   standard_box_quantity: i.standard_box_quantity.toLocaleString(),
+                   weight: i.weight.toLocaleString()
+               })
+
+            })
+            console.log(details);
         });
     };
-    const [initial, setInitial] = useState({
-        part_no: "",
-                    description:"",
-                    type: "",
-                    product_group: "",
-                    weight: "",
-                    standard_box_quantity: "",
-    })
+   
     return (
         <FormModal
             addFormVisible={addFormVisible}
@@ -114,17 +112,25 @@ const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
         >
             <Formik
                 initialValues={{
-                    part_no: details ? details.part_no :"",
-                    description:details ? details.description :"",
+                    part_no :"",
+                    description:"",
                     type: "",
                     product_group: "",
                     weight: "",
                     standard_box_quantity: "",
+                    safety_stock: "",
+                    rol: "",
+                    standard_lead_time: "",
+                    local_imported:"",
+                    drawing: ""
+    
+
+
                 }}
                 onSubmit={(values) => {
                     console.log(values, "item");
                     // setAddFormVisible(false);
-                    adminItemPostAxios(values);
+                    adminItemPostAxios(values,details);
                     navigation.push("Itemmaster");
                 }}
                 validationSchema={schema}
@@ -175,7 +181,7 @@ const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
                                                     field.name
                                                 )}
                                                 value={
-                                                     values[field.name]
+                                                     details ? details[field.name]  :values[field.name]
                                                 }
                                                 keyboardType={
                                                     field.name ==
@@ -224,7 +230,7 @@ const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
                                                             
                                                         }
                                                             selectedValue={
-                                                                values[
+                                                                details ? details.part_no: values[
                                                                     field.name
                                                                 ]
                                                             }
@@ -253,7 +259,7 @@ const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
                                 ))}
                                 <TouchableOpacity
                                     style={styles.btn(isValid)}
-                                    onPress={() => console.log(values)}
+                                    onPress={() =>handleSubmit()}
                                 >
                                     <Text style={{color: "white"}}>Submit</Text>
                                 </TouchableOpacity>

@@ -133,9 +133,12 @@ export const adminItemGetAxios = async () => {
     return await axios.get(`${baseURL}/admin/item`);
 };
 
-export const adminItemPostAxios = async (data) => {
+export const adminItemPostAxios = async (data1,data2) => {
+    console.log(data1,'d',data2,'ds');
     return await axios
-        .post(`${baseURL}/admin/item`, data)
+        .post(`${baseURL}/admin/item`, {
+            data1,data2
+        })
         .then((res) => {})
         .catch((err) => {});
 };
