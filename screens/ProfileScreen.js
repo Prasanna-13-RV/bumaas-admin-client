@@ -56,6 +56,20 @@ const ProfileScreen = ({ navigation }) => {
 					INVENTRY MASTER
 				</Text>
 			</TouchableOpacity>
+			<TouchableOpacity
+				style={styles.options}
+				onPress={() => navigation.push('Itemmaster')}
+			>
+				<Text
+					style={{
+						color: '#609BEB',
+						fontSize: 16,
+						fontWeight: 'bold'
+					}}
+				>
+					ITEM MASTER
+				</Text>
+			</TouchableOpacity>
 		</View>
 	);
 };

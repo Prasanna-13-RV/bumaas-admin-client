@@ -85,7 +85,7 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
                                             Customer Name
                                         </Text>
                                     </View>
-                                    <View style={styles.miniCard}>
+                                    {/* <View style={styles.miniCard}>
                                         <Text style={styles.miniCardText}>
                                             {
                                                 item["customer_address"]
@@ -669,13 +669,14 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
                                                 Mobile Number
                                             </Text>
                                         </View>
-                                    </View>
+                                    </View> */}
 
                                     <View
                                         style={{
                                             flexDirection: "row",
                                             justifyContent: "center",
                                             alignItems: "center",
+                                            flexWrap: "wrap",
                                         }}
                                     >
                                         <TouchableOpacity
@@ -749,6 +750,45 @@ const ShowCustomer = ({setAddFormVisible, setCustomerid, customerid}) => {
                                                 ]}
                                             >
                                                 Update
+                                            </Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            onPress={() =>
+                                                navigation.push(
+                                                    "ShowAllCustomer",
+                                                    {
+                                                        customerid:
+                                                            item["customer"]
+                                                                .customer_id,
+                                                    }
+                                                )
+                                            }
+                                            style={{
+                                                marginTop: 15,
+                                                width:
+                                                    Dimensions.get("window")
+                                                        .width /
+                                                        3 -
+                                                    30,
+                                                backgroundColor: "#fff",
+                                                margin: 5,
+                                                padding: 8,
+                                                borderRadius: 30,
+                                                borderWidth: 2,
+                                                borderColor: "black",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                            }}
+                                        >
+                                            <Text
+                                                style={[
+                                                    styles.text,
+                                                    {
+                                                        color: "black",
+                                                    },
+                                                ]}
+                                            >
+                                                View
                                             </Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
