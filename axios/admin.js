@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const baseURL = "http://192.168.1.8:8080";
+const baseURL = "http://192.168.0.103:8080";
 // const baseURL = "https://bumaas-admin-server.herokuapp.com";
 export const adminCustomerGetSingleAxios = async (customerid) => {
     console.log(customerid);
@@ -90,6 +90,17 @@ export const adminInventoryGetSingleAxios = async (inventoryid) => {
     return await axios
         .get(`${baseURL}/admin/inventory/${inventoryid}`)
         .then((res) => {
+            return res.data;
+        })
+        .catch((err) => {
+            return err;
+        });
+};
+export const adminInventoryGetSingleAxiosName = async (name) => {
+    return await axios
+        .get(`${baseURL}/admin/inventory/name/${name}`)
+        .then((res) => {
+            
             return res.data;
         })
         .catch((err) => {

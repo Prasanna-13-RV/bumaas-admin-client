@@ -21,7 +21,7 @@ import InventoryUpdate from "./screens/inventrymaster/InventoryUpdate";
 import Itemmaster from "./screens/itemmaster/Itemmaster.screen";
 import ItemMasterUpdate from "./screens/itemmaster/ItemMasterUpdate";
 import IndViewItemMaster from "./components/itemmaster/IndViewItemMaster.component";
-
+import ViewItemMaster from "./components/itemmaster/ViewItemMaster.component";
 const Stack = createNativeStackNavigator();
 
 const screenOptions = {
@@ -114,6 +114,11 @@ const NavigationSignUp = () => {
                     <Stack.Screen
                         name="IndViewItemMaster"
                         component={IndViewItemMaster}
+                        options={screenOptions}
+                    />
+                    <Stack.Screen
+                        name="ViewItemMaster"
+                        component={ViewItemMaster}
                         options={screenOptions}
                     />
                 </Stack.Navigator>

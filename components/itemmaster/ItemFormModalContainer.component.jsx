@@ -6,15 +6,25 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from "react-native";
-import React, {Fragment} from "react";
+import React, {Fragment,useEffect,useState} from "react";
 import {Formik} from "formik";
 import * as yup from "yup";
-
-import {adminItemPostAxios} from "../../axios/admin";
+import {Picker} from "@react-native-community/picker";
+import {adminInventoryGetSingleAxiosName, adminItemPostAxios} from "../../axios/admin";
 import FormModal from "../FormModal.component";
 import {useNavigation} from "@react-navigation/native";
+import {adminInventoryGetAxios} from "../../axios/admin";
 
 const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
+    const [inventory, setInventory] = useState([]);
+
+    const [details, setDetails] = useState();
+    useEffect(() => {
+        adminInventoryGetAxios().then((res) => setInventory(res.data));
+        console.log(inventory);
+    },[]);
+    useEffect(() => {
+    },[details]);
     const navigation = useNavigation();
     const formFields = [
         {
@@ -81,7 +91,22 @@ const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
         local_imported: yup.number().required(),
         drawing: yup.string().required(),
     });
-
+    const handlePick = (value) => {
+        console.log(value);
+        adminInventoryGetSingleAxiosName(value).then((res) => {
+            console.log(res[0]);
+            setDetails(res[0]);
+            console.log(details.description,'ll')
+        });
+    };
+    const [initial, setInitial] = useState({
+        part_no: "",
+                    description:"",
+                    type: "",
+                    product_group: "",
+                    weight: "",
+                    standard_box_quantity: "",
+    })
     return (
         <FormModal
             addFormVisible={addFormVisible}
@@ -89,8 +114,8 @@ const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
         >
             <Formik
                 initialValues={{
-                    part_no: "",
-                    description: "",
+                    part_no: details ? details.part_no :"",
+                    description:details ? details.description :"",
                     type: "",
                     product_group: "",
                     weight: "",
@@ -131,62 +156,104 @@ const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
                             >
                                 {formFields.map((field, index) => (
                                     <Fragment key={index}>
-                                        <Text
-                                            style={{
-                                                textAlign: "left",
-                                                marginLeft: 10,
-                                                marginTop: index === 0 ? 0 : 10,
-                                                fontSize: 16,
-                                                fontWeight: "bold",
-                                            }}
-                                        >
-                                            {field.placeholder}
-                                        </Text>
-                                        <TextInput
-                                            key={index}
-                                            style={styles.input}
-                                            placeholder={field.placeholder}
-                                            onChangeText={handleChange(
-                                                field.name
-                                            )}
-                                            value={values[field.name]}
-                                            keyboardType={
-                                                field.name ==
-                                                "standardBoxQuantity"
-                                                    ? "numeric"
-                                                    : "default" &&
-                                                      field.name == "weight"
-                                                    ? "numeric"
-                                                    : "default" &&
-                                                      field.name ==
-                                                          "standard_box_quantity"
-                                                    ? "numeric"
-                                                    : "default" &&
-                                                      field.name ==
-                                                          "safety_stock"
-                                                    ? "numeric"
-                                                    : "default" &&
-                                                      field.name == "rol"
-                                                    ? "numeric"
-                                                    : "default" &&
-                                                      field.name ==
-                                                          "standard_lead_time"
-                                                    ? "numeric"
-                                                    : "default" &&
-                                                      field.name == "hsn_code"
-                                                    ? "numeric"
-                                                    : "default" &&
-                                                      field.name ==
-                                                          "local_imported"
-                                                    ? "numeric"
-                                                    : "default"
-                                            }
-                                        />
+                                            <Text
+                                                style={{
+                                                    textAlign: "left",
+                                                    marginLeft: 10,
+                                                    marginTop: index === 0 ? 0 : 10,
+                                                    fontSize: 16,
+                                                    fontWeight: "bold",
+                                                }}
+                                            >
+                                                {field.placeholder}
+                                            </Text>
+                                            {field.name != 'part_no' && <TextInput
+                                                key={index}
+                                                style={styles.input}
+                                                placeholder={field.placeholder}
+                                                onChangeText={handleChange(
+                                                    field.name
+                                                )}
+                                                value={
+                                                     values[field.name]
+                                                }
+                                                keyboardType={
+                                                    field.name ==
+                                                    "standardBoxQuantity"
+                                                        ? "numeric"
+                                                        : "default" &&
+                                                        field.name == "weight"
+                                                        ? "numeric"
+                                                        : "default" &&
+                                                        field.name ==
+                                                            "standard_box_quantity"
+                                                        ? "numeric"
+                                                        : "default" &&
+                                                        field.name ==
+                                                            "safety_stock"
+                                                        ? "numeric"
+                                                        : "default" &&
+                                                        field.name == "rol"
+                                                        ? "numeric"
+                                                        : "default" &&
+                                                        field.name ==
+                                                            "standard_lead_time"
+                                                        ? "numeric"
+                                                        : "default" &&
+                                                        field.name == "hsn_code"
+                                                        ? "numeric"
+                                                        : "default" &&
+                                                        field.name ==
+                                                            "local_imported"
+                                                        ? "numeric"
+                                                        : "default"
+                                                }
+                                            />}
+                                        {
+                                                    field.name == "part_no" ? (
+                                                        <Picker
+                                                            style={
+                                                                styles.picker
+                                                            }
+                                                            mode="dropdown"
+                                                            placeholder="Select Best part no"
+                                                            onValueChange={(itemValue) => (
+                                                                console.log(itemValue),
+                                                                handleChange(field.name),
+                                                                handlePick(itemValue))
+                                                            
+                                                        }
+                                                            selectedValue={
+                                                                values[
+                                                                    field.name
+                                                                ]
+                                                            }
+                                                        >
+                                                            <Picker.Item
+                                                                label="Select Type"
+                                                                value=""
+                                                            />
+                                                            {/* {console.log(arr_item.name)} */}
+
+                                                            {inventory.map(
+                                                                (it) => (
+                                                                    <Picker.Item
+                                                                        label={
+                                                                            it.part_no
+                                                                        }
+                                                                        value={
+                                                                            it.part_no
+                                                                        }
+                                                                    />
+                                                                )
+                                                            )}
+                                                        </Picker>
+                                                    ) : null}
                                     </Fragment>
                                 ))}
                                 <TouchableOpacity
                                     style={styles.btn(isValid)}
-                                    onPress={() => handleSubmit()}
+                                    onPress={() => console.log(values)}
                                 >
                                     <Text style={{color: "white"}}>Submit</Text>
                                 </TouchableOpacity>
@@ -213,6 +280,12 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         marginVertical: 10,
     }),
+    picker: {
+        width: "100%",
+        borderColor: "#609BEB",
+        borderWidth: 1,
+        borderRadius: 50,
+    },
     input: {
         borderColor: "#609BEB",
         borderWidth: 1,
