@@ -368,8 +368,7 @@ const ProjectFormModalContainer = ({
                               {/* {console.log(arr_item.name)} */}
 
                               {arr_weight.map((it) => (
-                                // console.log(it.value.toLocaleString())
-                                // qq = it.value.toLocaleString()
+                                
                                 <Picker.Item
                                   label={it.label.toLocaleString()}
                                   value={it.value.toLocaleString()}
