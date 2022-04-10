@@ -17,6 +17,7 @@ const CustomerFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
     var col;
     const navigation = useNavigation();
     const [color, setColor] = useState(false);
+    const [loading, setLoading] = useState(false);
     //   const [index, setIndex] = useState(1);
     useEffect(() => {}, [color]);
     const arr = [
@@ -323,14 +324,16 @@ const CustomerFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
                 //   validateOnMount={true}
                 onSubmit={(values) => {
                     // setIndex(index + 1);
+                    setLoading(true);
                     console.log("====================================");
                     console.log(values);
                     console.log("====================================");
                     adminCustomerPostAxios(values).then((res) => {
                         setAddFormVisible(false);
                         //   navigation.goBack();
+                        setLoading(false);
                     });
-                    navigation.push("Customermaster");
+                    navigation.replace("Customermaster");
                 }}
             >
                 {({

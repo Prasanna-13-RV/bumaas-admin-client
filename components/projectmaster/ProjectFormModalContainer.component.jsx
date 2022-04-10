@@ -28,7 +28,7 @@ const ProjectFormModalContainer = ({
   setAddFormVisible,
   customerid,
 }) => {
-  console.log("customerid", customerid);
+
   const navigation = useNavigation();
   var col;
   var qq;
@@ -42,16 +42,14 @@ const ProjectFormModalContainer = ({
     await adminCustomerGetSingleAxios(customerid).then((res) => {
       //  console.log("res",res.data[0]);
       // col = res.data.color;
-      console.log(res.data[0], "plddd");
+      
       setCustomer(res.data[0]);
       // setColor(col);
     });
     await adminInventoryGetAxios().then((res) => {
-      console.log(res, "rsssrs");
+      
       setInventory(res.data);
-      console.log("====================================");
-      // console.log(customer,'hi');
-      console.log("====================================");
+      
     });
   }, []);
   const arr = [
@@ -67,26 +65,8 @@ const ProjectFormModalContainer = ({
       name: "customer_part_no",
       placeholder: "Customer Part No",
     },
-    {
-      name: "part_no",
-      placeholder: "Part No",
-    },
-    {
-      name: "description",
-      placeholder: "Description",
-    },
-    {
-      name: "type",
-      placeholder: "Type",
-    },
-    {
-      name: "product_group",
-      placeholder: "Product Group",
-    },
-    {
-      name: "weight",
-      placeholder: "Weight",
-    },
+    
+    
     {
       name: "norms_per_project",
       placeholder: "Norms Per Project",
@@ -120,11 +100,7 @@ const ProjectFormModalContainer = ({
     project_name: yup.string().required(),
     customer_name: yup.string().required(),
     customer_part_no: yup.string().required(),
-    part_no: yup.string().required(),
-    description: yup.string().required(),
-    type: yup.string().required(),
-    product_group: yup.string().required(),
-    weight: yup.string().required(),
+    
     norms_per_project: yup.string().required(),
     consumption_tracking: yup.string().required(),
     weekly_consumption: yup.string().required(),
@@ -133,6 +109,7 @@ const ProjectFormModalContainer = ({
     safety_stock: yup.string().required(),
     re_order_level: yup.string().required(),
   });
+ var arr_part_no = [];
   const data = [
     { label: "Item 1", value: "1" },
     { label: "Item 2", value: "2" },
@@ -156,11 +133,8 @@ const ProjectFormModalContainer = ({
               ? customer["customer"].customer_name
               : "",
             customer_part_no: "",
-            part_no: "",
-            description: "",
-            type: "",
-            product_group: "",
-            weight: "",
+            
+            
             norms_per_project: "",
             consumption_tracking: "",
             weekly_consumption: "",
@@ -172,8 +146,9 @@ const ProjectFormModalContainer = ({
           validationSchema={schema}
           validateOnMount={true}
           onSubmit={(values) => {
-            adminProjectPostAxios(values, customerid, selected).then((res) => {
+            adminProjectPostAxios(values, customerid,selected).then((res) => {
               console.log(res);
+
             });
             setAddFormVisible(false);
             navigation.goBack();
@@ -185,11 +160,7 @@ const ProjectFormModalContainer = ({
                 <>
                   {arr.map((item, index) => {
                     // col = item.name;
-                    const arr_part_no = [];
-                    const arr_description = [];
-                    const arr_type = [];
-                    const arr_product_group = [];
-                    const arr_weight = [];
+                     arr_part_no = [];
                     inventory &&
                       inventory.map((it) => {
                         // console.log(it[item.name],'it');
@@ -201,32 +172,7 @@ const ProjectFormModalContainer = ({
                           });
                           // console.log(part_no);
                         }
-                        if (it["description"]) {
-                          arr_description.push({
-                            label: it["description"],
-                            value: it["description"],
-                          });
-                        }
-
-                        if (it["type"]) {
-                          arr_type.push({
-                            label: it["type"],
-                            value: it["type"],
-                          });
-                        }
-                        if (it["product_group"]) {
-                          arr_product_group.push({
-                            label: it["product_group"],
-                            value: it["product_group"],
-                          });
-                        }
-                        if (it["weight"]) {
-                          arr_weight.push({
-                            label: it["weight"],
-
-                            value: it["weight"],
-                          });
-                        }
+                       
                       });
                     return (
                       <Fragment key={index}>
@@ -234,11 +180,7 @@ const ProjectFormModalContainer = ({
                           <Text style={[styles.title, styles.pickerText]}>
                             {item.placeholder}
                           </Text>
-                          {item.name != "type" &&
-                          item.name != "description" &&
-                          item.name != "product_group" &&
-                          item.name != "weight" &&
-                          item.name != "part_no" ? (
+                          
                             <TextInput
                               style={[
                                 styles.inputBox,
@@ -271,150 +213,49 @@ const ProjectFormModalContainer = ({
                                   : "default"
                               }
                             />
-                          ) : null}
-                          {index == 5 && item.name == "type" ? (
-                            <Picker
-                              style={styles.picker}
-                              mode="dropdown"
-                              placeholder="Select City"
-                              onValueChange={handleChange(item.name)}
-                              selectedValue={values[item.name]}
-                            >
-                              <Picker.Item label="Select Type" value="" />
-                              {/* {console.log(arr_item.name)} */}
-
-                              {arr_type.map((it) => (
-                                <Picker.Item
-                                  label={it.label}
-                                  value={it.value}
-                                />
-                              ))}
-                            </Picker>
-                          ) : null}
-                          {item.name == "description" ? (
-                            <Picker
-                              style={{
-                                width: "100%",
-                              }}
-                              mode="dropdown"
-                              placeholder="Select City"
-                              onValueChange={handleChange(item.name)}
-                              selectedValue={values[item.name]}
-                            >
-                              <Picker.Item label="Select Type" value="" />
-                              {/* {console.log(arr_item.name)} */}
-
-                              {arr_description.map((it) => (
-                                <Picker.Item
-                                  label={it.label}
-                                  value={it.value}
-                                />
-                              ))}
-                            </Picker>
-                          ) : null}
-                          {item.name == "product_group" ? (
-                            <Picker
-                              style={{
-                                width: "100%",
-                              }}
-                              mode="dropdown"
-                              placeholder="Select City"
-                              onValueChange={handleChange(item.name)}
-                              selectedValue={values[item.name]}
-                            >
-                              <Picker.Item label="Select Type" value="" />
-                              {/* {console.log(arr_item.name)} */}
-
-                              {arr_product_group.map((it) => (
-                                <Picker.Item
-                                  label={it.label}
-                                  value={it.value}
-                                />
-                              ))}
-                            </Picker>
-                          ) : null}
-                          {item.name == "part_no" ? (
-                            <Picker
-                              style={{
-                                width: "100%",
-                              }}
-                              mode="dropdown"
-                              placeholder="Select City"
-                              onValueChange={handleChange(item.name)}
-                              selectedValue={values[item.name]}
-                            >
-                              <Picker.Item label="Select Type" value="" />
-                              {/* {console.log(arr_item.name)} */}
-
-                              {arr_part_no.map((it) => (
-                                <Picker.Item
-                                  label={it.label.toLocaleString()}
-                                  value={it.value.toLocaleString()}
-                                />
-                              ))}
-                            </Picker>
-                          ) : null}
-                          {item.name == "weight" ? (
-                            <Picker
-                              style={{
-                                width: "100%",
-                              }}
-                              mode="dropdown"
-                              placeholder="Select City"
-                              onValueChange={handleChange(item.name)}
-                              selectedValue={values[item.name]}
-                            >
-                              <Picker.Item label="Select Type" value="" />
-                              {/* {console.log(arr_item.name)} */}
-
-                              {arr_weight.map((it) => (
-                                
-                                <Picker.Item
-                                  label={it.label.toLocaleString()}
-                                  value={it.value.toLocaleString()}
-                                />
-                              ))}
-                            </Picker>
-                          ) : null}
+                          
+                          
+                          
+                          
+                          
+                          
                         </View>
                       </Fragment>
                     );
                   })}
-                  {arr_part_no && (
-                    <View style={styles.container1}>
-                      <MultiSelect
-                        style={styles.dropdown}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        inputSearchStyle={styles.inputSearchStyle}
-                        iconStyle={styles.iconStyle}
-                        search
-                        data={arr_part_no}
-                        labelField="label"
-                        valueField="value"
-                        placeholder="Select item"
-                        searchPlaceholder="Search..."
-                        value={selected}
-                        onChange={(item) => {
-                          setSelected(item);
-                        }}
-                        renderLeftIcon={() => (
-                          <AntDesign
-                            style={styles.icon}
-                            color="black"
-                            name="Safety"
-                            size={20}
-                          />
-                        )}
-                        selectedStyle={styles.selectedStyle}
-                      />
-                    </View>
-                  )}
+                  <View style={styles.container1}>
+                    <MultiSelect
+                      style={styles.dropdown}
+                      placeholderStyle={styles.placeholderStyle}
+                      selectedTextStyle={styles.selectedTextStyle}
+                      inputSearchStyle={styles.inputSearchStyle}
+                      iconStyle={styles.iconStyle}
+                      search
+                      data={arr_part_no}
+                      labelField="label"
+                      valueField="value"
+                      placeholder="Select item"
+                      searchPlaceholder="Search..."
+                      value={selected}
+                      onChange={(item) => {
+                        setSelected(item);
+                      }}
+                      renderLeftIcon={() => (
+                        <AntDesign
+                          style={styles.icon}
+                          color="black"
+                          name="Safety"
+                          size={20}
+                        />
+                      )}
+                      selectedStyle={styles.selectedStyle}
+                    />
+                  </View>
                   <TouchableOpacity
                     style={styles.btn(isValid)}
                     onPress={() => {
                       isValid ? handleSubmit() : setColor(true);
-                      console.log(color);
+                      console.log(isValid);
                     }}
                   >
                     <Text style={{ color: "white" }}>Submit</Text>
@@ -430,33 +271,35 @@ const ProjectFormModalContainer = ({
 };
 
 const styles = StyleSheet.create({
-  container1: { padding: 16, width: "100%" },
-  dropdown: {
-    height: 50,
-    backgroundColor: "transparent",
-    borderBottomColor: "gray",
-    borderBottomWidth: 0.5,
-  },
-  placeholderStyle: {
-    fontSize: 16,
-  },
-  selectedTextStyle: {
-    fontSize: 14,
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
-  },
-  icon: {
-    marginRight: 5,
-  },
-  selectedStyle: {
-    borderRadius: 12,
-  },
+    container1: { padding: 16 ,
+    width: "100%",
+    },
+    dropdown: {
+      height: 50,
+      backgroundColor: 'transparent',
+      borderBottomColor: 'gray',
+      borderBottomWidth: 0.5,
+    },
+    placeholderStyle: {
+      fontSize: 16,
+    },
+    selectedTextStyle: {
+      fontSize: 14,
+    },
+    iconStyle: {
+      width: 20,
+      height: 20,
+    },
+    inputSearchStyle: {
+      height: 40,
+      fontSize: 16,
+    },
+    icon: {
+      marginRight: 5,
+    },
+    selectedStyle: {
+      borderRadius: 12,
+    },
   picker: {
     width: "100%",
     borderColor: "#609BEB",

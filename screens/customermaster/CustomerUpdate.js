@@ -5,6 +5,7 @@ import {
     TextInput,
     StyleSheet,
     TouchableOpacity,
+    ActivityIndicator
 } from "react-native";
 import React, {useState, useEffect, Fragment} from "react";
 import {Formik} from "formik";
@@ -293,6 +294,8 @@ const CustomerUpdate = ({route}) => {
     });
     return (
         <>
+        {customer.length > 0 ? (
+        <>
             {customer[0] && (
                 <Formik
                     initialValues={{
@@ -499,7 +502,15 @@ const CustomerUpdate = ({route}) => {
                     )}
                 </Formik>
             )}
-        </>
+        </>) :(
+            <View style={{ flex: 1 }}>
+            <ActivityIndicator
+              style={{ flex: 1, alignSelf: "center" }}
+              size="large"
+              color="#0000ff"
+            />
+          </View>
+        )}</>
     );
 };
 

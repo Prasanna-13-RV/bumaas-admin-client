@@ -6,7 +6,7 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from "react-native";
-import React, {Fragment} from "react";
+import React, {Fragment,useState} from "react";
 import {Formik} from "formik";
 import * as yup from "yup";
 
@@ -16,6 +16,7 @@ import {useNavigation} from "@react-navigation/native";
 
 const InventoryFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
     const navigation = useNavigation();
+    const [isLoading, setIsLoading] = useState(false);
     const formFields = [
         {
             name: "part_no",
@@ -67,10 +68,11 @@ const InventoryFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
                     standard_box_quantity: "",
                 }}
                 onSubmit={(values) => {
+                    
                     console.log(values, "lol");
                     // setAddFormVisible(false);
                     adminInventoryPostAxios(values);
-                    navigation.push("Inventrymaster");
+                    navigation.replace('Inventrymaster')
                 }}
                 validationSchema={schema}
                 validateOnMount={true}

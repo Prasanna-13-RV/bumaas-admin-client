@@ -1,7 +1,7 @@
 const axios = require("axios");
 
-// const baseURL = "http://192.168.0.103:8080";
-const baseURL = "https://bumaas-admin-server.herokuapp.com";
+const baseURL = "http://192.168.0.103:8080";
+// const baseURL = "https://bumaas-admin-server.herokuapp.com";
 export const adminCustomerGetSingleAxios = async (customerid) => {
     console.log(customerid);
     return await axios.get(`${baseURL}/admin/customer/${customerid}`);
@@ -58,11 +58,12 @@ export const adminCustomerPutAxios = async (values, customerid) => {
         });
 };
 
-export const adminProjectPutAxios = (values, customerid, projectid) => {
-    axios
+export const adminProjectPutAxios = (values, customerid, projectid,selected) => {
+    const json = JSON.stringify(selected);
+   return axios
         .put(
             `${baseURL}/admin/customer/${customerid}/project/update/${projectid}`,
-            {values}
+            {values,multi_part:json}
         )
         .then((res) => {
             return res;
@@ -83,8 +84,13 @@ export const adminInventoryGetAxios = async () => {
 export const adminInventoryPostAxios = async (data) => {
     return await axios
         .post(`${baseURL}/admin/inventory`, data)
-        .then((res) => {})
-        .catch((err) => {});
+        .then((res) => {
+            console.log(res);
+            return res;
+        })
+        .catch((err) => {
+            return err;
+        });
 };
 export const adminInventoryGetSingleAxios = async (inventoryid) => {
     return await axios
@@ -97,13 +103,15 @@ export const adminInventoryGetSingleAxios = async (inventoryid) => {
         });
 };
 export const adminInventoryGetSingleAxiosName = async (name) => {
+    console.log(name,'part in ax');
     return await axios
         .get(`${baseURL}/admin/inventory/name/${name}`)
         .then((res) => {
-            
+            console.log(res.data,'itm');
             return res.data;
         })
         .catch((err) => {
+            console.log(err,'err');
             return err;
         });
 };
@@ -133,11 +141,11 @@ export const adminItemGetAxios = async () => {
     return await axios.get(`${baseURL}/admin/item`);
 };
 
-export const adminItemPostAxios = async (data1,data2) => {
+export const adminItemPostAxios = async (data1,data2,file,name) => {
     console.log(data1,'d',data2,'ds');
     return await axios
         .post(`${baseURL}/admin/item`, {
-            data1,data2
+            data1,data2,file,name
         })
         .then((res) => {})
         .catch((err) => {});
@@ -162,10 +170,10 @@ export const adminItemGetViewAxios = async (itemid) => {
             return err;
         });
 };
-export const adminItemPutAxios = async (values, itemid) => {
+export const adminItemPutAxios = async (values,details,file,name, itemid) => {
     console.log(values, itemid);
     return await axios
-        .put(`${baseURL}/admin/item/update/${itemid}`, {values})
+        .put(`${baseURL}/admin/item/update/${itemid}`, {values,details,file,name})
         .then((res) => console.log(res))
         .catch((err) => {
             return err;
@@ -185,7 +193,8 @@ export const adminItemDeleteAxios = async (id) =>
 // Item ends
 
 export const adminProjectPostAxios = async (values, id,multipart) => {
-    console.log(multipart);
+    console.log(multipart,'pk');
+    const json = JSON.stringify(multipart)
     return await axios
         .post(
             `${baseURL}/admin/customer/${id}/project`,
@@ -193,13 +202,16 @@ export const adminProjectPostAxios = async (values, id,multipart) => {
             {
                 values,
                 customer_id: id,
+                multi_part:json
             }
         )
         .then((res) => {
             // return res;
+            console.log(res);
         })
         .catch((err) => {
             // return err;
+            console.log(err);
         })}
 
 export const adminProjectGetAxios = async (id) => {

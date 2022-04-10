@@ -4,6 +4,7 @@ import {
     ScrollView,
     StyleSheet,
     Dimensions,
+    ActivityIndicator,
     TouchableOpacity,
 } from "react-native";
 import React, {useState, useEffect} from "react";
@@ -15,10 +16,13 @@ import {useNavigation} from "@react-navigation/native";
 const ViewItemMaster = ({bestPartDetails, setAddFormVisible}) => {
     const navigation = useNavigation();
     const [item, setItem] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [delet, setDelet] = useState(false);
     useEffect(async () => {
         setDelet(false);
-        await adminItemGetAxios().then((res) => setItem(res.data));
+        await adminItemGetAxios().then((res) =>{ 
+            setIsLoading(false);
+            setItem(res.data)});
     }, [delet]);
     const handleDelete = async (id) => {
         await adminItemDeleteAxios(id).then((res) => {
@@ -27,6 +31,8 @@ const ViewItemMaster = ({bestPartDetails, setAddFormVisible}) => {
         setDelet(true);
     };
     return (
+        <>
+        {!isLoading ? ( 
         <>
             <ScrollView>
                 <View style={{flex: 1, padding: 10}}>
@@ -240,9 +246,18 @@ const ViewItemMaster = ({bestPartDetails, setAddFormVisible}) => {
                         })}
                 </View>
             </ScrollView>
-            <AddButton setAddFormVisible={setAddFormVisible} />
+            <AddButton setAddFormVisible={setAddFormVisible} /></>
+            ) : (
+            <View style={{ flex: 1 }}>
+          <ActivityIndicator
+            style={{ flex: 1, alignSelf: "center" }}
+            size="large"
+            color="#0000ff"
+          />
+        </View>
+        )}
         </>
-    );
+    )
 };
 
 const styles = StyleSheet.create({

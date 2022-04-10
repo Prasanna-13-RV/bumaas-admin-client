@@ -5,7 +5,11 @@ import {
     TextInput,
     StyleSheet,
     TouchableOpacity,
+    Button,
 } from "react-native";
+import * as DocumentPicker from 'expo-document-picker';
+
+import * as ExpoFileSystem from 'expo-file-system'
 import React, {Fragment,useEffect,useState} from "react";
 import {Formik} from "formik";
 import * as yup from "yup";
@@ -18,10 +22,29 @@ import {adminInventoryGetAxios} from "../../axios/admin";
 const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
     const [inventory, setInventory] = useState([]);
 
+
+    //file upload
+    const [fileResponse, setFileResponse] = useState([]);
+   
+    const handleDocumentSelection = async  () => {
+        try {
+            let result = await DocumentPicker.getDocumentAsync({});
+            console.log(result);
+            const fileContent = await ExpoFileSystem.readAsStringAsync(result.uri)
+
+            setFileResponse({
+                name: result.name,
+                content: fileContent,
+            });
+            
+        } catch (err) {
+          console.log(err);
+        }
+      };
     const [details, setDetails] = useState();
     useEffect(() => {
         adminInventoryGetAxios().then((res) => setInventory(res.data));
-        console.log(inventory);
+        
     },[]);
     useEffect(() => {
     },[details]);
@@ -70,11 +93,7 @@ const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
         {
             name: "local_imported",
             placeholder: "Local / Imported",
-        },
-        {
-            name: "drawing",
-            placeholder: "Drawing",
-        },
+        }
     ];
 
     const schema = yup.object().shape({
@@ -84,25 +103,28 @@ const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
         standard_lead_time: yup.number().required(),
         hsn_code: yup.number().required(),
         local_imported: yup.number().required(),
-        drawing: yup.string().required(),
+        
     });
-    const handlePick = (value) => {
-        console.log(value);
-        adminInventoryGetSingleAxiosName(value).then((res) => {
-            console.log(res[0]);
-            res.map((i)=> {
-               setDetails({
-                   part_no: i.part_no,
-                   description: i.description,
-                   product_group: i.product_group,
-                   type: i.type,
-                   standard_box_quantity: i.standard_box_quantity.toLocaleString(),
-                   weight: i.weight.toLocaleString()
-               })
-
-            })
-            console.log(details);
-        });
+    const handlePick = async (value) => {
+       
+            adminInventoryGetSingleAxiosName(value).then((res) => {
+                console.log(res[0]);
+                res.map((i)=> {
+                   setDetails({
+                       part_no: i.part_no,
+                       description: i.description,
+                       product_group: i.product_group,
+                       type: i.type,
+                       standard_box_quantity: i.standard_box_quantity.toLocaleString(),
+                       weight: i.weight.toLocaleString()
+                   })
+    
+                })
+                console.log(details);
+            });
+            //If file selected then create FormData
+         
+       
     };
    
     return (
@@ -122,22 +144,26 @@ const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
                     rol: "",
                     standard_lead_time: "",
                     local_imported:"",
-                    drawing: ""
+                    
     
 
 
                 }}
                 onSubmit={(values) => {
-                    console.log(values, "item");
+                    const fileToUpload = fileResponse.content;
+                    const data = new FormData();
+                    data.append('name', fileResponse.name);
+                    data.append('file_attachment', fileToUpload);
+                    
                     // setAddFormVisible(false);
-                    adminItemPostAxios(values,details);
-                    navigation.push("Itemmaster");
+                    adminItemPostAxios(values,details,data,fileResponse.name);
+                    navigation.replace("Itemmaster");
                 }}
                 validationSchema={schema}
                 validateOnMount={true}
             >
                 {({handleChange, handleSubmit, values, isValid}) => {
-                    console.log(isValid);
+                   
                     return (
                         <ScrollView>
                             <Text
@@ -224,7 +250,7 @@ const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
                                                             mode="dropdown"
                                                             placeholder="Select Best part no"
                                                             onValueChange={(itemValue) => (
-                                                                console.log(itemValue),
+                                                                
                                                                 handleChange(field.name),
                                                                 handlePick(itemValue))
                                                             
@@ -239,7 +265,7 @@ const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
                                                                 label="Select Type"
                                                                 value=""
                                                             />
-                                                            {/* {console.log(arr_item.name)} */}
+                                                            
 
                                                             {inventory.map(
                                                                 (it) => (
@@ -257,6 +283,13 @@ const ItemFormModalContainer = ({addFormVisible, setAddFormVisible}) => {
                                                     ) : null}
                                     </Fragment>
                                 ))}
+                                <Button
+                                    title="Select"
+                                    // style={styles.btn(isValid)}
+                                    onPress={handleDocumentSelection}
+                                >
+                                    
+                                </Button>
                                 <TouchableOpacity
                                     style={styles.btn(isValid)}
                                     onPress={() =>handleSubmit()}

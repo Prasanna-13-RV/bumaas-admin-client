@@ -5,6 +5,7 @@ import {
     StyleSheet,
     Dimensions,
     TouchableOpacity,
+    ActivityIndicator
 } from "react-native";
 import React, {useState, useEffect} from "react";
 import {
@@ -19,9 +20,12 @@ const ViewBestParts = ({bestPartDetails, setAddFormVisible}) => {
     const navigation = useNavigation();
     const [inventory, setInventory] = useState([]);
     const [delet, setDelet] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(async () => {
         setDelet(false);
-        await adminInventoryGetAxios().then((res) => setInventory(res.data));
+        await adminInventoryGetAxios().then((res) => {
+            setIsLoading(false);
+            setInventory(res.data)});
     }, [delet]);
     const handleDelete = async (id) => {
         await adminInventoryDeleteAxios(id).then((res) => {
@@ -30,6 +34,8 @@ const ViewBestParts = ({bestPartDetails, setAddFormVisible}) => {
         setDelet(true);
     };
     return (
+        <>
+        {!isLoading ? (
         <>
             <ScrollView>
                 <View style={{flex: 1, padding: 10}}>
@@ -174,7 +180,15 @@ const ViewBestParts = ({bestPartDetails, setAddFormVisible}) => {
                 </View>
             </ScrollView>
             <AddButton setAddFormVisible={setAddFormVisible} />
-        </>
+        </>) : (
+            <View style={{ flex: 1 }}>
+            <ActivityIndicator
+              style={{ flex: 1, alignSelf: "center" }}
+              size="large"
+              color="#0000ff"
+            />
+          </View>
+        )}</>
     );
 };
 

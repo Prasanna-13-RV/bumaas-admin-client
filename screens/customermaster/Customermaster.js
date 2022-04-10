@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
 		backgroundColor: '#fff',
-		justifyContent: 'flex-start',
+		// justifyContent: 'center',
+		// alignItems: 'center',
 		// padding: 20,
 		width: '100%'
 	},

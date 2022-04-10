@@ -5,6 +5,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 import React, { useState, useEffect, Fragment } from "react";
 import { Formik } from "formik";
@@ -19,6 +20,7 @@ import {
 const InventoryUpdate = ({ route }) => {
   const navigation = useNavigation();
   const [inventory, setInventory] = useState([]);
+  
   const inventoryid = route.params.inventoryid;
   useEffect(async () => {
     console.log(inventoryid);
@@ -73,6 +75,8 @@ const InventoryUpdate = ({ route }) => {
 
   return (
     <>
+    {inventory.length > 0 ? (
+      <>
       {inventory[0] && (
         <Formik
           initialValues={{
@@ -154,7 +158,15 @@ const InventoryUpdate = ({ route }) => {
           }}
         </Formik>
       )}
-    </>
+    </>): (
+       <View style={{ flex: 1 }}>
+       <ActivityIndicator
+         style={{ flex: 1, alignSelf: "center" }}
+         size="large"
+         color="#0000ff"
+       />
+     </View>
+    )}</>
   );
 };
 
